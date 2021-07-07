@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Blogs</title>
+<style>
+
+html {
+background-color: white;
+}
+
+body {
+  margin: 0px;
+  overflow-x: hidden;
+}
+
+.menu {
+  background-color: black;
+}
+
+.b1 {
+  position: relative;
+  text-align: center;
+  color: white;
+  padding: 10px;
+  border: 0px;
+  background-color: transparent;
+}
+
+.one {
+  position: absolute;
+  top: 28%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: Noto Serif;
+  font-size: 12px;
+}
+
+.container {
+  text-align: center;
+}
+
+.container :hover {
+  color: black;
+}
+
+#navigation {
+display: flex;
+justify-content: center;
+margin:0 auto;
+list-style:none;
+font-family: Century Gothic;
+font-size: 14px;
+}
+
+#navigation li {
+float:left;
+}
+
+#navigation a {
+display:block;
+text-align:center;
+padding: 19px 17px;
+text-decoration:none;
+color: white;
+}
+
+#navigation a:hover {
+  color: orange;
+}
+
+#navigation a.active {
+  color: orange;
+}
+
+  body{
+      font-size: 16px;
+    }
+
+  table,th,td {
+    border-collapse: collapse;
+    width: 50%;
+  }
+
+  td {
+    font-family: Noto Serif;
+    font-size: 12px;
+    text-align: left;
+  }
+
+  th {
+    font-family: Century Gothic;
+    font-size: 22px;
+    text-align: center;
+  }
+
+  .table{
+    display: flex;
+    justify-content: center; /* Center Horizontally */
+  }
+
+</style>
+</head>
+<body>
+
+<div class="menu">
+  <ul id="navigation">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="Page2.html">Portfolio</a></li>
+    <li><a class="active" href="http://localhost/finalblogs.html">Blogs</a></li>
+    <li><a href="Page3.html">Electives</a></li>
+    <li><a href="Page4.html">About</a></li>
+  </ul>
+</div>
+
+<br><br>
+
+  <div class="container">
+  <button class="b1" onclick="loadXMLDoc()"><img src="button6.png" width="200px" height="40px"/><p class="one">Click to View Blogs</p></button>
+  <br><br>
+  </div>
+
+  <div class="table">
+    <table id="info">
+
+    </table>
+
+  </div>
+
+<script type="text/javascript">
+  function loadXMLDoc() {
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        myFunction(this);
+      }
+    };
+    xmlhttp.open("GET", "blogs.xml", true);
+    xmlhttp.send();
+  }
+
+
+  function myFunction(xml) {
+    var xmlDoc = xml.responseXML;
+
+    //go thru XML file, create an array of Javascript Objects
+    var itemArray = parseXML(xmlDoc);
+
+    //display the array of Javascript Objects
+    display(itemArray);
+  }
+
+  function parseXML(xmlDoc)
+  {
+  	var itemElements = xmlDoc.getElementsByTagName("blogsItem");
+    var itemArray = [];	//this array will hold Javascript Objects
+
+      for(var i=0; i<itemElements.length; i++)
+      {
+         var item = {};	//this is a new object
+
+         item.Title = itemElements[i].getElementsByTagName("TITLE")[0].childNodes[0].nodeValue;
+         item.Image = itemElements[i].getElementsByTagName("IMAGE")[0].childNodes[0].nodeValue;
+         item.Summary = itemElements[i].getElementsByTagName("SUMMARY")[0].childNodes[0].nodeValue;
+
+         itemArray.push(item);
+      }
+      return itemArray;	//return the array of javascript item objets
+  }
+
+  function display(itemArray)
+  {
+
+  	var html = document.getElementById("info");
+
+      for(var i=0; i<itemArray.length; i++)
+      {
+         //create a new table row, fill with info
+         html.innerHTML += "<tr>";
+         html.innerHTML += "</br>" + "</br>" + "</br>" + "</br>" + "<th>" + itemArray[i].Title + "</br>" + "</br>" + "<img style='width:500px' src='" +itemArray[i].Image +"'/>" + "</br>" + "</br>" + "</th></td>" + itemArray[i].Summary + "</br>" + "</br>" + "</br>" + "</br>" + "</td></tr>";
+      }
+
+  }
+</script>
+
+</body>
+</html>
